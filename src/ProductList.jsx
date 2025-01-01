@@ -1,13 +1,17 @@
 import React, { useState,useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
+import { selectTotalItems } from './CartSlice';
 import { addItem } from './CartSlice';
+import { useSelector, useDispatch } from 'react-redux'; // Add useDispatch
 
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
-    
+    const totalItems = useSelector(selectTotalItems); // Get total items from Redux
+    const dispatch = useDispatch(); // Add this line to get dispatch function
+
     const plantsArray = [
         {
             category: "Air Purifying Plants",
@@ -236,19 +240,20 @@ function ProductList() {
     textDecoration: 'none',
    }
    const handleCartClick = (e) => {
-    e.preventDefault();
-    setShowCart(true); // Set showCart to true when cart icon is clicked
-};
-const handlePlantsClick = (e) => {
-    e.preventDefault();
-    setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
-    setShowCart(false); // Hide the cart when navigating to About Us
+    if (e) e.preventDefault(); // Add check for e
+    setShowCart(true);
 };
 
-   const handleContinueShopping = (e) => {
-    e.preventDefault();
+const handlePlantsClick = (e) => {
+    if (e) e.preventDefault(); // Add check for e
+    setShowPlants(true);
     setShowCart(false);
-  };
+};
+
+const handleContinueShopping = (e) => {
+    if (e) e.preventDefault(); // Add check for e
+    setShowCart(false);
+};
   const handleAddToCart = (product) => {
     dispatch(addItem(product));
     setAddedToCart((prevState) => ({
@@ -272,9 +277,28 @@ const handlePlantsClick = (e) => {
               
             </div>
             <div style={styleObjUl}>
-                <div> <a href="#" onClick={(e)=>handlePlantsClick(e)} style={styleA}>Plants</a></div>
-                <div> <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}><h1 className='cart'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68"><rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle><path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path></svg></h1></a></div>
-            </div>
+                    <div>
+                        <a href="#" onClick={(e)=>handlePlantsClick(e)} style={styleA}>Plants</a>
+                    </div>
+                    <div>
+                        <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
+                            <div className='cart-container'>
+                                <h1 className='cart'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68">
+                                        <rect width="156" height="156" fill="none"></rect>
+                                        <circle cx="80" cy="216" r="12"></circle>
+                                        <circle cx="184" cy="216" r="12"></circle>
+                                        <path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path>
+                                    </svg>
+                                </h1>
+                                {/* Add counter badge */}
+                                {totalItems > 0 && (
+                                    <span className="cart-counter">{totalItems}</span>
+                                )}
+                            </div>
+                        </a>
+                    </div>
+                </div>
         </div>
         {!showCart? (
         <div className="product-grid">
