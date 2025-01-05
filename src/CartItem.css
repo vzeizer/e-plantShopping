@@ -97,6 +97,7 @@
     width: 100%; /* Set details width to full width */
   }
 
+  
   .cart-item-quantity {
     margin-top: 10px; /* Add margin top for spacing */
   }
@@ -165,7 +166,7 @@
     color: #fff;
     font-size: 14px;
     cursor: pointer;
-    padding: 10px 15px;
+    padding: 5px 15px;
     margin-top: 10px;
     border-radius: 10px;
   }
@@ -214,7 +215,7 @@
    }
    .total_cart_amount{
     font-size: 20px;
-    font-weight: 900;
+    font-weight: 1000;
    }
 .continue_shopping_btn{
   margin-top: -50px;

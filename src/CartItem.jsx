@@ -97,7 +97,7 @@ const CartItem = ({ onContinueShopping }) => {
         
         {/* Remove button */}
         <button 
-          className="remove-button"
+          className="cart-item-delete"
           onClick={() => handleRemove(item)}
         >
           Remove
